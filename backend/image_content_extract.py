@@ -13,7 +13,8 @@ image_file_list = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if 
 # print(type(image_file_list))
 
 ## TODO: define functions to run models on images
-## each model receives the image file absolute path [str] as input, and returns the image content [str] as output
+## each model receives the single_image file absolute path [str] as input, and returns the image content [str] as output
+## future: pip install the model package during app installation, and import the model package here
 def run_image_description(image_file_path):
     return 'image description cat'
 
@@ -49,7 +50,7 @@ for i, single_image in enumerate(image_file_list): # future: scaling - GPU paral
 
 ## calculate relevance between the image_content_list versus the keyword query_str
 ## for now, assume query_str is a single word. future: extend to multiple words
-## for now, assume "relevance" is the number of times the query_str appears in the image_content string. future: extend to synonyms
+## for now, assume "relevance" is the number of times the query_str appears in the image_content string. future: extend to synonyms, LLM word embedding distance
 relevance_list = [image_content.count(query_str) for image_content in image_content_list]
 # print(relevance_list)
 relevance_list = [3,1,2,5,99] # test sorting. TODO: remove this line
