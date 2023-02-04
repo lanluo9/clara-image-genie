@@ -1,0 +1,5 @@
+{% for image in images %}
+    <img src="{{ image.file_path.url }}" width="20%" height="20%">
+{% endfor %}
+
+<!-- currently displays all images in the data base. should rather display images in an array can be changed in views -->
