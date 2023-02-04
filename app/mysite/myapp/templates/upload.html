@@ -1,0 +1,5 @@
+<form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="folder" multiple />
+    <button type="submit">Upload</button>
+</form>

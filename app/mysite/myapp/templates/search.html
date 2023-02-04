@@ -1,3 +1,17 @@
+<form method="get">
+  {{ form.as_p }}
+  <input type="submit" value="Search">
+</form>
+
+<!-- {% if results %}
+  <ul>
+    {% for result in results %}
+      <li>{{ result }}</li>
+    {% endfor %}
+  </ul>
+{% endif %} -->
+
+
 {% if Images %}
   <ul>
   {% for image in images %}
