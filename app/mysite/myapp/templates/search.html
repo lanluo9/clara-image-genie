@@ -1,15 +1,4 @@
-<form method="get">
+<form  action="{% url 'display' %}" method="get">
   {{ form.as_p }}
   <input type="submit" value="Search">
 </form>
-
-
-{% if Images %}
-  <ul>
-  {% for image in images %}
-      <li><img src="{{ image.image.url }}" alt="{{ image.title }}"/></li>
-  {% endfor %}
-  </ul>
-{% else %}
-  <p>No images found.</p>
-{% endif %}
