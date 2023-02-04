@@ -32,22 +32,20 @@ def run_image_description(image_file_path):
         return preds
 
     preds = predict_step(image_file_path)
-    return preds # or test output: 'image description cat'
+    return preds # this is `image_content_list`, or use test output: 'image description cat'
 
 
-
+## test case
 test1 = r'D:\repo\clara-image-genie\test_images\wren-meinberg-AL2-t0GrSko-unsplash.jpg'.replace('\\', '/')
 test2 = r'D:\repo\clara-image-genie\test_images\sebastian-coman-travel-dtOTQYmTEs0-unsplash.jpg'.replace('\\', '/')
-# # print(test_image_path)
-# # from PIL import Image
-# # Image.open(test_image_path)
-
-image_content = run_image_description([test1, test2])
-print('\n')
-print(image_content)
+image_content_list = run_image_description([test1, test2])
+# print('\n')
+# print(type(image_content_list))
+# print(image_content_list)
 
 
+## a shorter version of the above code, but for some reason gets lower accuracy
 # from transformers import pipeline
 # image_to_text = pipeline("image-to-text", model="nlpconnect/vit-gpt2-image-captioning")
 # output = image_to_text([test1, test2])
-# # print(output)
+# print(output)
