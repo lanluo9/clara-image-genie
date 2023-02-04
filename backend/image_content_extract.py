@@ -2,9 +2,9 @@ import os
 
 app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
 
-image_dir = os.path.join(app_dir, 'test_images') # use test image for now. TODO: substitute with user input 1
-search_type = 'object detection' # TODO: substitute with user input 2
-query_str = 'cat' # TODO: substitute with user input 3
+image_dir = os.path.join(app_dir, 'test_images')
+search_type = 'object detection'
+query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
 
 
 ## get a list of all image files in the image folder. 
@@ -13,13 +13,14 @@ image_file_list = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if 
 # print(type(image_file_list))
 
 ## TODO: define functions to run models on images
-def run_image_description(image_file):
+## each model receives the image file absolute path [str] as input, and returns the image content [str] as output
+def run_image_description(image_file_path):
     return 'image description cat'
 
-def run_object_detection(image_file):
+def run_object_detection(image_file_path):
     return 'object detection cat'
 
-def run_OCR(image_file):
+def run_OCR(image_file_path):
     return 'OCR cat'
 
 
@@ -42,7 +43,7 @@ for i, single_image in enumerate(image_file_list): # future: scaling - GPU paral
     print(image_content)
     image_content_list.append(image_content)
     
-    if i >= 4: # for now, only process 5 images. TODO: remove this line
+    if i >= 4: # test with 5 images. TODO: remove this line
         break
 
 
