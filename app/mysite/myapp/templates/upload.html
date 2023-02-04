@@ -3,10 +3,34 @@
     <input type="file" name="folder" multiple />
     <button type="submit">Upload</button>
 </form> -->
-<h1>Upload Folder</h1>
-<form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <input type="file" id="ctrl" webkitdirectory directory multiple/>
-  <button type="submit">Upload</button>
-</form>
+
+
+<body style = "background-color: rgb(0, 0, 0)">
+    <div style = "text-align: center;">
+      <img src="https://www.svgrepo.com/show/298940/maple-leaf.svg" alt="Flowers in Chania" style = "width: 150px; height: 150px">
+    </div>
+    <h1 style = "background-color: rgb(129, 73, 179); text-align: center; height: 50px; font-size: 40px; font-family: sans-serif; color: white"> 
+      Clara: Your Image Genie 
+    </h1>
+    <p style = "color: white; font-family: sans-serif; text-align: center; font-size: 17px">
+      Clara is a local picture search and insight assistant with data privacy </p>
+    <p style = "color: white; font-family: sans-serif; text-align: center; font-size: 17px">
+      It can be quite difficult to search through your entire camera roll to find a single image but Clara lets you input either: 
+    </p>
+    <p style = "color: white; font-family: sans-serif; text-align: center; font-size: 17px">
+      - an image description <br> - an object to detect <br> - an OCR (Optical Character Recognition) search 
+    </p>
+    <p style = "color: white; font-family: sans-serif; text-align: center; font-size: 17px">
+      and will show you all pictures that match your search term 
+    </p>
+  </header>
+    <box style = "margin-top: 40px; font-size: 30px; display: block; margin-left: auto; margin-right: auto; width: 30%; background-color: grey; text-align: center; color: white; font-family: sans-serif; border-style: solid">
+      <b> Upload Folder </b>
+    </box>
+    <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input style = "padding-top: 30px; font-size: 20px; width: 10%; margin-left: 40%;" type="file" id="ctrl" webkitdirectory directory multiple/>
+    <button style = "margin-left: 30px; font-size: 20px;" type="submit">Upload</button>
+    </form>
 <p>{{ message }}</p>
+</body>
