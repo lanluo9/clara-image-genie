@@ -6,7 +6,7 @@
 <h1>Upload Folder</h1>
 <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  <input type="file" name="folder">
+  <input type="file" id="ctrl" webkitdirectory directory multiple/>
   <button type="submit">Upload</button>
 </form>
 <p>{{ message }}</p>
