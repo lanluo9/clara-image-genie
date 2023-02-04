@@ -1,4 +1,7 @@
 import os
+import numpy as np
+import pandas as pd
+from itertools import compress
 
 ## get path and user input
 app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
@@ -10,13 +13,41 @@ query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_t
 ## get a list of all image files in the image folder. 
 ## possible extensions: .jpg, .jpeg, .png | future: add more extensions
 image_file_list = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if f.endswith(('.jpg', '.jpeg', '.png'))]
-image_file_list = image_file_list[:5] # test with 5 images. TODO: remove this line
+image_file_list = image_file_list[:6] # test with n images. TODO: remove this line
 # image_filename_list = [os.path.basename(image_file_path) for image_file_path in image_file_list] # only print file name, not the full path
 # print(image_filename_list)
 
 
-## TODO: cache the image content_list, so that we don't need to run the model on the same image again
-## check if image has been cached. if yes, load the cached image content_list. if no, run the model on the image, and cache the image content_list
+## initialize model_cache.csv to cache the image_content_list, if not exist
+model_cache_dir = os.path.join(app_dir, 'model_cache')
+if not os.path.exists(model_cache_dir):
+    os.makedirs(model_cache_dir)
+model_cache_csv = os.path.join(model_cache_dir, 'model_cache.csv') # save image_content_list in csv file
+# print(model_cache_csv)
+if not os.path.exists(model_cache_csv): # TODO: uncomment this line
+    with open(model_cache_csv, 'w', newline='') as f:
+        f.write('image_file_path,image_content,content_type\n')
+        f.write('init_img,init_content,init_type\n') # note there should be no white space after the comma
+
+
+## if some img in image_file_list exist in cache of corresponding search_type, retrieve image_content from cache
+df = pd.read_csv(model_cache_csv)
+# print(df)
+# search_type = 'init_type'; image_file_list[0] = 'init_img' # TODO: remove this line
+# print(image_file_list)
+
+cached_bool = np.zeros(len(image_file_list), dtype=bool)
+image_content_cached = [None] * len(image_file_list)
+for i, image_file_path in enumerate(image_file_list):
+    if image_file_path in df[df.content_type == search_type].image_file_path.values:
+        cached_bool[i] = True
+        image_content_cached[i] = df[df.image_file_path == image_file_path].image_content.values[0]
+# print(df[df.content_type == search_type].image_file_path.values)
+print(~cached_bool)
+# print(image_content_cached)
+# print(list(compress(image_file_list, ~cached_bool))) # boolean indexing to get the list of uncached images
+image_cached_list = list(compress(image_file_list, cached_bool))
+image_uncached_list = list(compress(image_file_list, ~cached_bool))
 
 
 ## TODO: define functions to run models on images
@@ -29,34 +60,47 @@ def run_OCR(image_file_path):
     return 'OCR cat'
 
 
-## run corresponding model on the list of all images to get image content_list
-if search_type == 'image description':
-    image_content_list = run_image_description(image_file_list)
+## run corresponding model on the list of uncached images to get image_content_list, then save to model_cache.csv
+if (search_type == 'image description') or (search_type == 'init_type'): # TODO: remove the test condition
+    image_content_uncached = run_image_description(image_uncached_list) # run model on uncached images
 elif search_type == 'object detection':
-    image_content_list = run_object_detection(image_file_list)
+    image_content_uncached = run_object_detection(image_uncached_list)
 elif search_type == 'OCR':
-    image_content_list = run_OCR(image_file_list)
+    image_content_uncached = run_OCR(image_uncached_list)
 else:
     print('only support search type: image description, object detection, OCR')
+print(image_content_uncached)
+
+
+## save to cache
+with open(model_cache_csv, 'a', newline='') as f:
+    for i, image_file_path in enumerate(image_uncached_list):
+        f.write(image_file_path + ',' + image_content_uncached[i] + ',' + search_type + '\n')
+
+
+## fill in where image_content_cached is None with image_content_list
+image_content_list = [image_content_uncached[i] if image_content_cached[i] is None \
+                        else image_content_cached[i] \
+                        for i in range(len(image_content_cached))]
 print(image_content_list)
 
 
-## calculate relevance between the image_content_list versus the keyword query_str
-## for now, assume query_str is a single word. future: extend to multiple words
-## for now, assume "relevance" is the number of times the query_str appears in the image_content string. future: extend to synonyms, LLM word embedding distance
-relevance_list = [image_content.count(query_str) for image_content in image_content_list]
-# print(relevance_list)
-relevance_list = [3,1,2,5,99] # test sorting. TODO: remove this line
-# print(relevance_list)
+# ## calculate relevance between the image_content_list versus the keyword query_str
+# ## for now, assume query_str is a single word. future: extend to multiple words
+# ## for now, assume "relevance" is the number of times the query_str appears in the image_content string. future: extend to synonyms, LLM word embedding distance
+# relevance_list = [image_content.count(query_str) for image_content in image_content_list]
+# # print(relevance_list)
+# relevance_list = [3,1,2,5,99] # test sorting. TODO: remove this line
+# # print(relevance_list)
 
 
-## sort the image_file_list based on the relevance_list
-image_file_list_sorted = [x for _,x in sorted(zip(relevance_list, image_file_list), reverse=True)]
-# print(image_file_list[:5])
-# print('\n')
-# print(image_file_list_sorted)
+# ## sort the image_file_list based on the relevance_list
+# image_file_list_sorted = [x for _,x in sorted(zip(relevance_list, image_file_list), reverse=True)]
+# # print(image_file_list[:5])
+# # print('\n')
+# # print(image_file_list_sorted)
 
-## return the top 5 images
-relevant_images_top5 = image_file_list_sorted[:5] # this is the output from the backend, send to frontend
-print(relevant_images_top5)
+# ## return the top 5 images
+# relevant_images_top5 = image_file_list_sorted[:5] # this is the output from the backend, send to frontend
+# print(relevant_images_top5)
 
