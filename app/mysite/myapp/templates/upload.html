@@ -5,33 +5,39 @@
 </form> -->
 
 
-<body style = "background-color: rgb(0, 0, 0)">
-    <div style = "text-align: center;">
-      <img src="https://www.svgrepo.com/show/298940/maple-leaf.svg" alt="Flowers in Chania" style = "width: 150px; height: 150px">
-    </div>
-    <h1 style = "border-radius: 10px; background-color: rgb(129, 73, 179); text-align: center; height: 50px; font-size: 40px; font-family: sans-serif; color: white"> 
-      Clara: Your Image Genie 
-    </h1>
+<body style="background-color: rgb(0, 0, 0)">
+  <div style="text-align: center;">
+    <img src="https://www.svgrepo.com/show/298940/maple-leaf.svg" alt="Flowers in Chania"
+      style="width: 150px; height: 150px">
+  </div>
+  <h1
+    style="border-radius: 10px; background-color: rgb(129, 73, 179); text-align: center; height: 50px; font-size: 40px; font-family: sans-serif; color: white">
+    Clara: Your Image Genie
+  </h1>
 
-    <box style = "background-color: grey; color: white; font-family: sans-serif; text-align: center; font-size: 17px">
-      <p>
-        Clara is a local picture search and insight assistant with data privacy </p>
-      <p>
-        It can be quite difficult to search through your entire camera roll to find a single image but Clara lets you input a search term and will return either: 
-      </p>
-      <p>
-        - an image description (alt-text) of all pictures with a match<br> - all pictures containing the specified object <br> - all pictures containing the specific word provided 
-      </p>
-    </box>
+  <box style="background-color: grey; color: white; font-family: sans-serif; text-align: center; font-size: 17px">
+    <p>
+      Clara is a local picture search and insight assistant with data privacy </p>
+    <p>
+      It can be quite difficult to search through your entire camera roll to find a single image but Clara lets you
+      input a search term and will return either:
+    </p>
+    <p>
+      - an image description (alt-text) of all pictures with a match<br> - all pictures containing the specified object
+      <br> - all pictures containing the specific word provided
+    </p>
+  </box>
   </header>
 
-    <box style = "margin-top: 40px; font-size: 30px; display: block; margin-left: auto; margin-right: auto; width: 50%; background-color: grey; text-align: center; color: white; font-family: sans-serif; border-style: solid">
-      <b> Select the folder containing your images:</b>
-    </box>
-    <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
+  <box
+    style="margin-top: 40px; font-size: 30px; display: block; margin-left: auto; margin-right: auto; width: 50%; background-color: grey; text-align: center; color: white; font-family: sans-serif; border-style: none">
+    <b> Select the folder containing your images: </b>
+  </box>
+  <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input style = "padding-top: 30px; font-size: 25px; width: 12%; margin-left: 39%;" type="file" name="folder" webkitdirectory directory multiple/>
-    <button style = "margin-left: 30px; font-size: 25px;" type="submit">Upload</button>
-    </form>
-<p>{{ message }}</p>
+    <input style="padding-top: 30px; font-size: 25px; width: 12%; margin-left: 39%;" type="file" name="folder"
+      webkitdirectory directory multiple />
+    <button style="margin-left: 30px; font-size: 25px;" type="submit">Step 2: Start Processing</button>
+  </form>
+  <p>{{ message }}</p>
 </body>
