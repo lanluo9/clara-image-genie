@@ -1,4 +1,5 @@
 import os # no install, built-in
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 import numpy as np
 import pandas as pd
 from itertools import compress # no install, built-in
@@ -7,8 +8,8 @@ from itertools import compress # no install, built-in
 ## get path and user input
 app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
 image_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
-search_type = 'image description'
-query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
+search_type = 'OCR'
+query_str = 'time' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
 query_str = query_str.lower().strip() # convert to lower case and remove white space
 
 
@@ -39,6 +40,7 @@ df = pd.read_csv(model_cache_csv)
 # print(image_file_list)
 cached_bool = np.zeros(len(image_file_list), dtype=bool)
 image_content_cached = [None] * len(image_file_list)
+## TODO: use filename to determine if the image is cached, instead of the full path
 for i, image_file_path in enumerate(image_file_list):
     if image_file_path in df[df.content_type == search_type].image_file_path.values:
         cached_bool[i] = True
