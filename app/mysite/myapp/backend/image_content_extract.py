@@ -7,12 +7,13 @@ def img2text(search_type, query_str):
 
 
     ## get path and user input
-    print('change app_dir to your local repo path')
-    app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
-    image_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
+    app_dir = os.getcwd() # cwd should be: /clara-image-genie/app/mysite/
+    # app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
+    image_dir = os.path.join(app_dir, 'images').replace('\\', '/')
     # image_dir = r'D:\repo\clara-image-genie\archive-deprecated\test_images'.replace('\\', '/') # test cache across folders: it works
     # search_type = 'OCR'
     # query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
+    search_type = search_type.lower()
     query_str = query_str.lower().strip() # convert to lower case and remove white space
 
 
@@ -25,7 +26,7 @@ def img2text(search_type, query_str):
 
 
     ## initialize model_cache.csv to cache the image_content_list, if not exist
-    model_cache_dir = os.path.join(app_dir, 'model_cache')
+    model_cache_dir = os.path.join(app_dir, 'myapp/backend/model_cache')
     if not os.path.exists(model_cache_dir):
         os.makedirs(model_cache_dir)
     model_cache_csv = os.path.join(model_cache_dir, 'model_cache.csv') # save image_content_list in csv file
@@ -67,18 +68,18 @@ def img2text(search_type, query_str):
         image_content_uncached = []
     else:
         if (search_type == 'image description'): # or (search_type == 'init_type'):
-            from model_run import run_image_description
+            from myapp.backend.model_run import run_image_description
             image_content_uncached = run_image_description(image_uncached_list) # run model on uncached images
         elif search_type == 'object detection':
-            from model_run import run_object_detection
-            model_path = os.path.join(app_dir, 'backend/yolov3.pt')
+            from myapp.backend.model_run import run_object_detection
+            model_path = os.path.join(app_dir, 'myapp/backend/yolov3.pt')
             if not os.path.exists(model_path):
                 import wget
                 url = 'https://github.com/OlafenwaMoses/ImageAI/releases/download/3.0.0-pretrained/yolov3.pt/'
                 wget.download(url, model_path)
             image_content_uncached = run_object_detection(image_uncached_list, model_path)
         elif search_type == 'OCR':
-            from model_run import run_OCR
+            from myapp.backend.model_run import run_OCR
             image_content_uncached = run_OCR(image_uncached_list)
             query_str = ' ' + query_str # pad query_str with white space to avoid partial match with OCR. future: improve
         else:
