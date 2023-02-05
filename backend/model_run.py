@@ -3,7 +3,7 @@ def run_image_description(image_file_path):
     # TODO: use https://huggingface.co/spaces/laion/CoCa & https://github.com/mlfoundations/open_clip
     
     from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
-    import torch
+    import torch # installed by easyocr as dependency
     from PIL import Image
 
     model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
@@ -65,7 +65,7 @@ def run_OCR(image_file_list):
         # just_words = [(value[1], value[2])  for value in result] #only get the words
         # if len(just_words) == 0:
         #     just_words = (['No-text-in-this-image'], 0.5)
-        just_words = str([value[1] for value in result]).replace(",", '') # prevent csv from splitting OCR text with commas
+        just_words = str([value[1] for value in result]).replace(",", ' ') # prevent csv from splitting OCR text with commas
         # print(just_words)
         if len(just_words) == 0:
             just_words = ('No-text-in-this-image')
@@ -75,15 +75,16 @@ def run_OCR(image_file_list):
 
 ###################
 
-def run_object_detection(image_file_list):
+def run_object_detection(image_file_list, model_path):
     # https://github.com/OlafenwaMoses/ImageAI
     from imageai.Detection import ObjectDetection
     import os
 
     execution_path = os.getcwd()
+    print(execution_path)
     detector = ObjectDetection()
     detector.setModelTypeAsYOLOv3()
-    detector.setModelPath(os.path.join(execution_path , "yolov3.pt"))
+    detector.setModelPath(model_path) # pytorch model file's path
     detector.loadModel()
 
     results = []
@@ -92,7 +93,8 @@ def run_object_detection(image_file_list):
         curr_img_objects = []
         for eachObject in detections:
             # curr_img_objects.append((eachObject["name"], eachObject["percentage_probability"]))
+            print(eachObject["name"])
             curr_img_objects.append(eachObject["name"])
-        results.append(curr_img_objects)
+        results.append(str(curr_img_objects).replace(",", ' '))
     # print(results) # Returns a list of lists where each sublists corresponds to an image and contains tuples of items in the image with associated probabilities for each item
     return results

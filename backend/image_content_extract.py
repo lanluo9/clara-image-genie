@@ -1,20 +1,21 @@
-import os
+import os # no install, built-in
 import numpy as np
 import pandas as pd
-from itertools import compress
+from itertools import compress # no install, built-in
+
 
 ## get path and user input
 app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
 image_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
-search_type = 'OCR'
-query_str = 'time' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
-query_str = query_str.lower()
+search_type = 'object detection'
+query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
+query_str = query_str.lower().strip() # convert to lower case and remove white space
 
 
 ## get a list of all image files in the image folder. 
 ## possible extensions: .jpg, .jpeg, .png | future: add more extensions
 image_file_list = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if f.endswith(('.jpg', '.jpeg', '.png'))]
-image_file_list = image_file_list[28:32] # test with n images. TODO: remove this line
+# image_file_list = image_file_list[:7] # test with n images. TODO: remove this line
 image_filename_list = [os.path.basename(image_file_path) for image_file_path in image_file_list] # only print file name, not the full path
 print(image_filename_list)
 
@@ -36,7 +37,6 @@ df = pd.read_csv(model_cache_csv)
 # print(df)
 # search_type = 'init_type'; image_file_list[0] = 'init_img'
 # print(image_file_list)
-
 cached_bool = np.zeros(len(image_file_list), dtype=bool)
 image_content_cached = [None] * len(image_file_list)
 for i, image_file_path in enumerate(image_file_list):
@@ -54,8 +54,6 @@ image_uncached_list = list(compress(image_file_list, ~cached_bool))
 # ## TODO: import functions from .py to run models on images
 # def run_object_detection(image_file_path):
 #     return 'object detection cat'
-# def run_OCR(image_file_path):
-#     return 'OCR cat'
 
 
 ## run corresponding model on the list of uncached images to get image_content_list, then save to model_cache.csv
@@ -70,7 +68,8 @@ else:
         image_content_uncached = run_image_description(image_uncached_list) # run model on uncached images
     elif search_type == 'object detection':
         from model_run import run_object_detection
-        image_content_uncached = run_object_detection(image_uncached_list)
+        model_path = os.path.join(app_dir, 'backend/yolov3.pt')
+        image_content_uncached = run_object_detection(image_uncached_list, model_path)
     elif search_type == 'OCR':
         from model_run import run_OCR
         image_content_uncached = run_OCR(image_uncached_list)
