@@ -42,9 +42,11 @@ cached_bool = np.zeros(len(image_file_list), dtype=bool)
 image_content_cached = [None] * len(image_file_list)
 ## TODO: use filename to determine if the image is cached, instead of the full path
 for i, image_file_path in enumerate(image_file_list):
+    image_file_name = os.path.basename(image_file_path)
     if image_file_path in df[df.content_type == search_type].image_file_path.values:
         cached_bool[i] = True
-        image_content_cached[i] = df[(df.image_file_path == image_file_path) & (df.content_type == search_type)].image_content.values[0]
+        image_content_cached[i] = df[(df.image_file_path.str.contains(image_file_name)) # future: use full path to avoid namesake
+                                    & (df.content_type == search_type)].image_content.values[0]
 # print(df[df.content_type == search_type].image_file_path.values)
 print('not cached_bool: ', ~cached_bool)
 # print(image_content_cached)
