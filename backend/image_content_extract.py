@@ -51,11 +51,6 @@ image_cached_list = list(compress(image_file_list, cached_bool))
 image_uncached_list = list(compress(image_file_list, ~cached_bool))
 
 
-# ## TODO: import functions from .py to run models on images
-# def run_object_detection(image_file_path):
-#     return 'object detection cat'
-
-
 ## run corresponding model on the list of uncached images to get image_content_list, then save to model_cache.csv
 ## each model receives the single_image file absolute path [str] as input, and returns the image content [str] as output
 ## future: list dependency on git repo. pip install the model package during app installation, and import the model package in model functions
@@ -77,7 +72,7 @@ else:
     elif search_type == 'OCR':
         from model_run import run_OCR
         image_content_uncached = run_OCR(image_uncached_list)
-        query_str = ' ' + query_str # pad query_str with white space to avoid partial match with OCR. TODO: improve
+        query_str = ' ' + query_str # pad query_str with white space to avoid partial match with OCR. future: improve
     else:
         print('only support search type: image description, object detection, OCR')
 # print(image_content_cached)
