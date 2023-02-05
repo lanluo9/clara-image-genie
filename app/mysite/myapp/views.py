@@ -7,8 +7,10 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from .forms import ImageUploadForm
 from .backend.image_content_extract import img2text
+from django.views.decorators.csrf import csrf_protect
 
 
+@csrf_protect
 def search(request):
     print('Request method is ' + str(request.method))
     form = SearchForm()

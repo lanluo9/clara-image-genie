@@ -22,7 +22,7 @@
       - Select Object Detection if you would like all the images that contain the object specified by the keyword ex: pictures that contain the word "cat"
      </p>
   </box>
-  <form style = "margin-top: 70px; margin-left: 35%; font-family: sans-serif; font-size: 30px; color: white" action="{% url 'display' %}" method="get">
+  <form style = "margin-top: 70px; margin-left: 35%; font-family: sans-serif; font-size: 30px; color: white" action="{% url 'display' %}" method="post">
    {% csrf_token %}
     {{ form.as_p }}
     <input style = "margin-left: 10%; font-size: 25px" type="submit" value="Search ">
