@@ -1,4 +1,6 @@
 def img2text(search_type, query_str):
+    print('start model for img2text')
+    print('search_type: ' + search_type, '. query_str: ' + query_str)
     import os # no install, built-in
     os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
     import numpy as np
@@ -78,7 +80,7 @@ def img2text(search_type, query_str):
                 url = 'https://github.com/OlafenwaMoses/ImageAI/releases/download/3.0.0-pretrained/yolov3.pt/'
                 wget.download(url, model_path)
             image_content_uncached = run_object_detection(image_uncached_list, model_path)
-        elif search_type == 'OCR':
+        elif search_type == 'ocr':
             from myapp.backend.model_run import run_OCR
             image_content_uncached = run_OCR(image_uncached_list)
             query_str = ' ' + query_str # pad query_str with white space to avoid partial match with OCR. future: improve

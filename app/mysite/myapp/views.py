@@ -22,15 +22,11 @@ def display_images(request):
         print(form.errors)
         if form.is_valid():
             query = form.cleaned_data['query']
-            search_by = form.cleaned_data['search_by']
+            search_by = form.cleaned_data['search_type']
     image_paths = img2text(search_by, query)
-    print("Chosen images: " + str(image_paths))
-    print('\n')
-    print('All images: ' + str(Image.objects.all()))
-    for e in Image.objects.all():
-        print(e.file_path)
-    images = [img for img in Image.objects.all() if img.file_path in image_paths]
+    images = [Image(file_path=p.rsplit('app/mysite')[1], file_name=os.path.basename(p)) for p in image_paths]
     return render(request, 'display.html', {'images': images})
+
 
 
 def upload_images(request):
