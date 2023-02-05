@@ -38,7 +38,7 @@ def upload_images(request):
                 file_path = os.path.join(folder_path, filename)
                 file = Image(file_path=file_path, title=filename)
                 file.save()
-            return redirect('upload_images')
+            return redirect('success')
     else:
         form = ImageUploadForm()
     return render(request, 'upload.html', {'form': form})
