@@ -32,7 +32,7 @@
     <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input style = "padding-top: 30px; font-size: 25px; width: 12%; margin-left: 39%;" type="file" name="folder" webkitdirectory directory multiple/>
-    <button style = "margin-left: 30px; font-size: 25px;" type="submit">Upload</button>
+    <button style = "margin-left: 30px; font-size: 25px;" type="submit">Start Processing</button>
     </form>
 <p>{{ message }}</p>
 </body>
