@@ -18,11 +18,11 @@ Users will select from our three different types of searches:
 - `Object Detection`: This will return all the images containing that keyword, for example all images containing a cat. 
 - `OCR (Optical Character Recognition)`: This will return all images containing the actual keyword inputted, for example all images containing the word "cat".  
 
-**Clara streamlines the image search process using image-to-text algorithms, and makes images more accessible for everyone.**
+**Clara streamlines the image search process using image-to-text algorithms, making images more accessible for everyone.**
 
 ### Platform supported
 - PC (as a web app running on localhost)
-- mobile (as a web app running on localhost)
+- mobile coming up soon
 
 ---
 
@@ -32,7 +32,11 @@ Users will select from our three different types of searches:
 - Then we displayed all search result images on front end, a website running on localhost only. No internet connection needed after downloading - all image processing happens offline, and user data is super safe!  
 - For details, see [project roadmap](https://github.com/lanluo9/clara-image-genie/blob/b17e5ae8bca2160f495b096e76917b78ed6d53d2/project-roadmap.md).
 
----
+## How to use
+- [Guideline to install all dependencies](https://github.com/lanluo9/clara-image-genie/blob/a7dc45f6e296294f71d5d30f0b348633d61dc350/app/mysite/myapp/backend/README.md)
+- [Dependency list as yml](https://github.com/lanluo9/clara-image-genie/blob/a7dc45f6e296294f71d5d30f0b348633d61dc350/app/mysite/myapp/backend/env_clara.yml)
+
+<!-- ---
 
 ## Challenges we ran into
 - All of our team members came in with varying degrees of experience, so one challenge was simply learning the skills necessary.  
@@ -44,7 +48,7 @@ Users will select from our three different types of searches:
 
 ## What we learned
 - We initially had some trouble developing the front-end, but learned more about designing styles, and creating fields for the back-end to integrate with. 
-- We also learned a lot about pytorch models and how to deploy them into a fully-functioning project. 
+- We also learned a lot about pytorch models and how to deploy them into a fully-functioning project.  -->
 
 ---
 
@@ -54,6 +58,5 @@ Users will select from our three different types of searches:
 - Integrate a text reader into the front end, so user's without a pre-installed reader will still be able to make the most of our application
 - Pre-compile the app so it's easily installed
 
-
-see how to build this project in: https://github.com/lanluo9/clara-image-genie/blob/main/project-front-back-end-plan.md  
-it listed the features that front and back end should achieve  
+## Reference links
+- [Devpost project page for Clara](https://devpost.com/software/clara-image-genie)
