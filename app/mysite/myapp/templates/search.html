@@ -23,6 +23,7 @@
      </p>
   </box>
   <form style = "margin-top: 70px; margin-left: 35%; font-family: sans-serif; font-size: 30px; color: white" action="{% url 'display' %}" method="get">
+   {% csrf_token %}
     {{ form.as_p }}
     <input style = "margin-left: 10%; font-size: 25px" type="submit" value="Search ">
   </form>
