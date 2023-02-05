@@ -30,7 +30,9 @@ IP = '0.0.0.0'
 PORT = os.environ.get('PORT', 8000)
 
 # Add this line to set the address and port for the application
-ALLOWED_HOSTS = [f'{IP}:{PORT}']
+ALLOWED_HOSTS = [f'{IP}:{PORT}',
+'clara-image-genie-production.up.railway.app',
+'*']
 
 # Application definition
 
