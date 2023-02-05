@@ -7,7 +7,7 @@ from itertools import compress # no install, built-in
 ## get path and user input
 app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
 image_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
-search_type = 'object detection'
+search_type = 'image description'
 query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
 query_str = query_str.lower().strip() # convert to lower case and remove white space
 
@@ -69,6 +69,10 @@ else:
     elif search_type == 'object detection':
         from model_run import run_object_detection
         model_path = os.path.join(app_dir, 'backend/yolov3.pt')
+        if not os.path.exists(model_path):
+            import wget
+            url = 'https://github.com/OlafenwaMoses/ImageAI/releases/download/3.0.0-pretrained/yolov3.pt/'
+            wget.download(url, model_path)
         image_content_uncached = run_object_detection(image_uncached_list, model_path)
     elif search_type == 'OCR':
         from model_run import run_OCR
