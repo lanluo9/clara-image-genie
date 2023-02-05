@@ -6,25 +6,32 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from .forms import ImageUploadForm
+from .backend.image_content_extract import img2text
 
 
 def search(request):
-    form = SearchForm(request.GET)
-    if form.is_valid():
-        query = form.cleaned_data['query']
-        search_by = form.cleaned_data['search_by']
-        # Use the query and search_by variables to perform your search
-        # ...
-    else:
-        form = SearchForm()
+    print('Request method is ' + str(request.method))
+    form = SearchForm()
     return render(request, 'search.html', {'form': form})
-
 
 
 def display_images(request):
     #returns all images change to display select array of images
-    images = Image.objects.all()
+    if request.method == 'GET':
+        form = SearchForm(request.GET)
+        print(form.errors)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search_by = form.cleaned_data['search_by']
+    image_paths = img2text(search_by, query)
+    print("Chosen images: " + str(image_paths))
+    print('\n')
+    print('All images: ' + str(Image.objects.all()))
+    for e in Image.objects.all():
+        print(e.file_path)
+    images = [img for img in Image.objects.all() if img.file_path in image_paths]
     return render(request, 'display.html', {'images': images})
+
 
 def upload_images(request):
     if request.method == 'POST':
