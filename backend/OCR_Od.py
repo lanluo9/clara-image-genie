@@ -2,8 +2,8 @@
 #This code uses the following libraries: 
 # https://github.com/JaidedAI/EasyOCR
 # https://github.com/OlafenwaMoses/ImageAI
-import os
 
+import os
 import easyocr
 from imageai.Detection import ObjectDetection
 
