@@ -7,6 +7,7 @@ def img2text(search_type, query_str):
 
 
     ## get path and user input
+    print('change app_dir to your local repo path')
     app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
     image_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
     # image_dir = r'D:\repo\clara-image-genie\archive-deprecated\test_images'.replace('\\', '/') # test cache across folders: it works
