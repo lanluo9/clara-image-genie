@@ -13,7 +13,7 @@ query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_t
 ## get a list of all image files in the image folder. 
 ## possible extensions: .jpg, .jpeg, .png | future: add more extensions
 image_file_list = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if f.endswith(('.jpg', '.jpeg', '.png'))]
-image_file_list = image_file_list[:10] # test with n images. TODO: remove this line
+image_file_list = image_file_list[:2] # test with n images. TODO: remove this line
 # image_filename_list = [os.path.basename(image_file_path) for image_file_path in image_file_list] # only print file name, not the full path
 # print(image_filename_list)
 
@@ -24,7 +24,7 @@ if not os.path.exists(model_cache_dir):
     os.makedirs(model_cache_dir)
 model_cache_csv = os.path.join(model_cache_dir, 'model_cache.csv') # save image_content_list in csv file
 # print(model_cache_csv)
-if not os.path.exists(model_cache_csv): # TODO: uncomment this line
+if not os.path.exists(model_cache_csv):
     with open(model_cache_csv, 'w', newline='') as f:
         f.write('image_file_path,image_content,content_type\n')
         f.write('init_img,init_content,init_type\n') # note there should be no white space after the comma
@@ -43,7 +43,7 @@ for i, image_file_path in enumerate(image_file_list):
         cached_bool[i] = True
         image_content_cached[i] = df[(df.image_file_path == image_file_path) & (df.content_type == search_type)].image_content.values[0]
 # print(df[df.content_type == search_type].image_file_path.values)
-print(~cached_bool)
+print('not cached_bool: ', ~cached_bool)
 # print(image_content_cached)
 # print(list(compress(image_file_list, ~cached_bool))) # boolean indexing to get the list of uncached images
 image_cached_list = list(compress(image_file_list, cached_bool))
@@ -93,15 +93,15 @@ for i in range(len(image_content_cached)):
     else:
         image_content_list.append(image_content_cached[i])
 # print(image_content_list)
-image_filename_list = [os.path.basename(image_file_path) for image_file_path in image_file_list] # only print file name, not the full path
-print(image_filename_list)
+# image_filename_list = [os.path.basename(image_file_path) for image_file_path in image_file_list] # only print file name, not the full path
+# print(image_filename_list)
 
 
 ## calculate relevance between the image_content_list versus the keyword query_str
 ## for now, assume query_str is a single word. future: extend to multiple words
 ## for now, assume "relevance" is the number of times the query_str appears in the image_content string. future: extend to synonyms, LLM word embedding distance
 relevance_list = [image_content.count(query_str) for image_content in image_content_list]
-print(relevance_list)
+print('relevance_list: ', relevance_list)
 
 
 ## sort the image_file_list based on the relevance_list
@@ -115,10 +115,18 @@ image_file_list_sorted = list(compress(image_file_list_sorted, relevance_arr>0))
 
 
 ## return the top n images
-if len(image_file_list_sorted) < 10:
+top_n = 10 # only display top n images
+if len(image_file_list_sorted) <= top_n:
     relevant_images_top = image_file_list_sorted
 else:
-    relevant_images_top = image_file_list_sorted[:10] # this is the output from the backend, send to frontend
+    relevant_images_top = image_file_list_sorted[:top_n] # this is the output from the backend, send to frontend
 print('\n')
-print(relevant_images_top)
+print(relevant_images_top) # an list of strings, each string is the absolute path of the image file
 
+
+## change to relative path
+django_img_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
+print(django_img_dir)
+relevant_images_top = [os.path.basename(image_file_path) for image_file_path in relevant_images_top] # only print file name, not the full path
+relevant_images_top = [os.path.join(django_img_dir, image_file_path) for image_file_path in relevant_images_top] # add the django image directory to the file name
+print(relevant_images_top)
