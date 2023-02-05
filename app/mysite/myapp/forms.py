@@ -7,8 +7,8 @@ class SearchForm(forms.Form):
         ('OCR', 'OCR'),
         ('Object detection', 'Object detection'),
     ]
-    query = forms.CharField(label='Search', max_length=100)
-    search_by = forms.ChoiceField(choices=SEARCH_CHOICES)
+    query = forms.CharField(label='Search Keyword', max_length=100)
+    search_type = forms.ChoiceField(choices=SEARCH_CHOICES)
 
 
 class ImageUploadForm(forms.ModelForm):
