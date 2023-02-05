@@ -28,13 +28,13 @@
     </box>
   </header>
 
-    <box style = "border-radius: 10px; margin-top: 40px; font-size: 30px; display: block; margin-left: auto; margin-right: auto; width: 30%; background-color: grey; text-align: center; color: white; font-family: sans-serif; border-style: solid">
-      <b> Upload Folder </b>
+    <box style = "margin-top: 40px; font-size: 30px; display: block; margin-left: auto; margin-right: auto; width: 50%; background-color: grey; text-align: center; color: white; font-family: sans-serif; border-style: solid">
+      <b> Select the folder containing your images:</b>
     </box>
     <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input style = "padding-top: 30px; font-size: 25px; width: 12%; margin-left: 39%;" type="file" id="ctrl" webkitdirectory directory multiple/>
-    <button style = "margin-left: 30px; font-size: 25px;" type="submit">Upload</button>
+    <button style = "margin-left: 30px; font-size: 25px;" type="submit">Start</button>
     </form>
 <p>{{ message }}</p>
 </body>
