@@ -10,8 +10,8 @@ def img2text(search_type, query_str):
     app_dir = r'D:\repo\clara-image-genie'.replace('\\', '/')
     image_dir = os.path.join(app_dir, 'app/mysite/images').replace('\\', '/')
     # image_dir = r'D:\repo\clara-image-genie\archive-deprecated\test_images'.replace('\\', '/') # test cache across folders: it works
-    search_type = 'object detection'
-    query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
+    # search_type = 'OCR'
+    # query_str = 'cat' # use test input for now, TODO: substitute image_dir, search_type, and query_str with user input 1-3
     query_str = query_str.lower().strip() # convert to lower case and remove white space
 
 
