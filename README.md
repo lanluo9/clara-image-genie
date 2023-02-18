@@ -1,5 +1,13 @@
 # clara-image-genie
-Clara: your local picture search and insight assistant with data privacy
+
+## TLDR
+Clara is your personal local picture search and insight assistant with data privacy: 
+
+- Ever want to dig up your ancienct receipt photos? long-lost memes? your beloved cat pictures?  
+- ...But don't wanna upload your photos online 'cause it's too dangerous? 
+- Use Clara to find all pictures relevant to a keyword by a simple search! 
+- No internet connection needed after downloading - all image processing happens offline, and your data is safe! 
+- Made with love, friendly for blind users and screen readers : ) 
 
 ## Inspiration
 ### Struggling to find that one picture in thousands of pictures
