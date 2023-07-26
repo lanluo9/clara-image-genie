@@ -19,12 +19,16 @@ def search(request):
 
 def display_images(request):
     #returns all images change to display select array of images
-    if request.method == 'GET':
-        form = SearchForm(request.GET)
+    print('-----request.method is ' + str(request.method) + '-----')
+    if request.method == 'POST': # should use POST for submission of sensitive / long data: https://stackoverflow.com/questions/3477333/what-is-the-difference-between-post-and-get
+        form = SearchForm(request.POST)
         print(form.errors)
         if form.is_valid():
+            print(f'---------form keys are {form.cleaned_data.keys()}---------')
             query = form.cleaned_data['query']
             search_by = form.cleaned_data['search_type']
+            print('---------query is ' + query + '---------')
+            print('---------search_by is ' + search_by + '---------')
     image_paths = img2text(search_by, query)
     images = [Image(file_path=p.rsplit('app/mysite')[1], file_name=os.path.basename(p)) for p in image_paths]
     return render(request, 'display.html', {'images': images})
