@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'clara.apps.ClaraConfig', # tell my project that my app is installed. 
+    # Django apps are “pluggable”: You can use an app in multiple projects, and you can distribute apps, because they don’t have to be tied to a given Django installation.
+    # after adding clara app, run `python manage.py makemigrations clara` and `python manage.py migrate` to create the clara app's tables in the database
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

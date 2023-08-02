@@ -6,4 +6,5 @@ cd into mysite folder
 
 ---
 
-Current todo: https://docs.djangoproject.com/en/4.2/intro/tutorial02/#activating-models
+Current todo:  
+https://docs.djangoproject.com/en/4.2/intro/tutorial02/#playing-with-the-api
