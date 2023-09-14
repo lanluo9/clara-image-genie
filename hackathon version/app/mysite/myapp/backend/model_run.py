@@ -56,11 +56,12 @@ def run_image_description(image_file_path):
 def run_OCR(image_file_list):
     # https://github.com/JaidedAI/EasyOCR
     import easyocr
+    from tqdm import tqdm
     reader = easyocr.Reader(['en']) # need to run only once to load model into memory
 
     print('model ready, start OCR')
     results = []
-    for image_file_path in image_file_list:
+    for image_file_path in tqdm(image_file_list):
         result = reader.readtext(image_file_path) #returns a list of lists where each element has the bounding box coordinates as the 0th element, the word as the 1st, and the confidence of interpreting that word correctly as the 2nd 
         # just_words = [(value[1], value[2])  for value in result] #only get the words
         # if len(just_words) == 0:
@@ -79,6 +80,7 @@ def run_object_detection(image_file_list, model_path):
     # https://github.com/OlafenwaMoses/ImageAI
     from imageai.Detection import ObjectDetection
     import os
+    from tqdm import tqdm
 
     execution_path = os.getcwd()
     print(execution_path)
@@ -88,7 +90,7 @@ def run_object_detection(image_file_list, model_path):
     detector.loadModel()
 
     results = []
-    for image_file_path in image_file_list:
+    for image_file_path in tqdm(image_file_list):
         detections = detector.detectObjectsFromImage(input_image=image_file_path, minimum_percentage_probability=30)
         curr_img_objects = []
         for eachObject in detections:
