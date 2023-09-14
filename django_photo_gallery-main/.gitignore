@@ -1,0 +1,25 @@
+# Cache
+__pycache__/
+
+# PyCharm files
+.idea/
+
+# VSC files
+.vscode/
+
+# Virtual environment
+.venv
+venv/
+venv.bak/
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media
+test_media
+
+#Other
+secrets.py
+photo_gallery/**/notes.py
